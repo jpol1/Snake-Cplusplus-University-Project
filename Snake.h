@@ -8,7 +8,8 @@ class Snake {
     float snakeX_;
     float snakeY_;
     DIRECTION snakeDirection_;
-    int snakeLives_;
+    int snakeLength_;
+    bool isAlive_;
 public:
     Snake();
     [[nodiscard]] float snakeX() const {return snakeX_;}
@@ -19,7 +20,7 @@ public:
     [[nodiscard]] sf::RectangleShape drawSnake() const;
 
     void setSnakeDirection(DIRECTION direction);
-    void increaseLives();
+    void increaseLength();
 };
 
 #endif //SNAKESFML_SNAKE_H

@@ -7,7 +7,8 @@ Snake::Snake():
 snakeX_(20.f),
 snakeY_(15.f),
 snakeDirection_(DIRECTION::RIGHT),
-snakeLives_(1){};
+snakeLength_(1),
+isAlive_(true){};
 
 void Snake::setSnakeDirection(DIRECTION direction) {
     snakeDirection_ = direction;
@@ -35,6 +36,6 @@ sf::RectangleShape Snake::drawSnake() const{
     return shape;
 }
 
-void Snake::increaseLives() {
-    snakeLives_++;
+void Snake::increaseLength() {
+    snakeLength_++;
 }

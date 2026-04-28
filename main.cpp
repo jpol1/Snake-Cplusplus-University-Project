@@ -62,7 +62,7 @@ int main() {
             snake.moveSnake();
             snake_shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
             if (snake_shape.getPosition() == apple_shape.getPosition()) {
-                snake.increaseLives();
+                snake.increaseLength();
                 while (snake_shape.getPosition() != apple_shape.getPosition()) {
                     apple.randomizePosition();
                 }
