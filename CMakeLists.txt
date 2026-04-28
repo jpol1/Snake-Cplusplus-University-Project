@@ -10,6 +10,8 @@ add_executable(SnakeSFML
         Snake.cpp
         Direction.h
         Snake.h
+        Apple.cpp
+        Apple.h
 )
 
 target_link_libraries(SnakeSFML SFML::Graphics SFML::Window SFML::System)

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Snake.h"
 #include "Constants.h"
+#include "Apple.h"
 
 void drawGrid(sf::RenderWindow& window) {
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));
@@ -22,13 +23,13 @@ void drawGrid(sf::RenderWindow& window) {
 
 int main() {
     Snake snake;
+    sf::RectangleShape snake_shape = snake.drawSnake();
 
+    Apple apple;
+    apple.randomizePosition();
+    sf::RectangleShape apple_shape = apple.drawApple();
 
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
-
-    sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
-    shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
-    shape.setFillColor(sf::Color::Green);
 
 
     sf::Clock clock;
@@ -59,7 +60,16 @@ int main() {
 
         if (clock.getElapsedTime().asSeconds() >= 0.2f) {
             snake.moveSnake();
-            shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
+            snake_shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
+            if (snake_shape.getPosition() == apple_shape.getPosition()) {
+                snake.increaseLives();
+                while (snake_shape.getPosition() != apple_shape.getPosition()) {
+                    apple.randomizePosition();
+                }
+                apple_shape.setPosition(sf::Vector2f(SIZE_CELL * apple.AppleX(),SIZE_CELL * apple.AppleY()));
+
+            }
+
             clock.restart();
         }
 
@@ -67,7 +77,9 @@ int main() {
 
         drawGrid(window);
 
-        window.draw(shape);
+        window.draw(apple_shape);
+        window.draw(snake_shape);
+
         window.display();
     }
 
