@@ -1,12 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Snake.h"
-
-constexpr int WINDOW_WIDTH = 800;
-constexpr int WINDOW_HEIGHT = 600;
-constexpr float SIZE_CELL = 20.f;
-
-constexpr int COLS = WINDOW_WIDTH / SIZE_CELL;
-constexpr int ROWS = WINDOW_HEIGHT / SIZE_CELL;
+#include "Constants.h"
 
 void drawGrid(sf::RenderWindow& window) {
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));
