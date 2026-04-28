@@ -15,12 +15,15 @@ public:
     [[nodiscard]] float snakeX() const {return snakeX_;}
     [[nodiscard]] float snakeY() const {return snakeY_;}
     [[nodiscard]] DIRECTION snakeDirection() const {return snakeDirection_;}
+    [[nodiscard]] bool isAlive() const {return isAlive_;}
 
     void moveSnake();
     [[nodiscard]] sf::RectangleShape drawSnake() const;
 
     void setSnakeDirection(DIRECTION direction);
     void increaseLength();
+
+    void setAlive();
 };
 
 #endif //SNAKESFML_SNAKE_H

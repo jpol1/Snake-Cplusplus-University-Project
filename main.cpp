@@ -60,7 +60,13 @@ int main() {
 
         if (clock.getElapsedTime().asSeconds() >= 0.2f) {
             snake.moveSnake();
+            snake.setAlive();
+            if (!snake.isAlive()) {
+                break;
+            }
             snake_shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
+
+
             if (snake_shape.getPosition() == apple_shape.getPosition()) {
                 snake.increaseLength();
                 while (snake_shape.getPosition() != apple_shape.getPosition()) {

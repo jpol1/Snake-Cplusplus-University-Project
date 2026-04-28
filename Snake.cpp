@@ -39,3 +39,9 @@ sf::RectangleShape Snake::drawSnake() const{
 void Snake::increaseLength() {
     snakeLength_++;
 }
+
+void Snake::setAlive() {
+    if (snakeX_ < 0 || snakeX_ >= COLS || snakeY_ < 0 || snakeY_ >= ROWS) {
+        isAlive_ = false;
+    }
+}
