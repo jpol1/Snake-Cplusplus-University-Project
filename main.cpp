@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Snake.h"
 
 constexpr int WINDOW_WIDTH = 800;
 constexpr int WINDOW_HEIGHT = 600;
@@ -23,31 +24,49 @@ void drawGrid(sf::RenderWindow& window) {
         horizontalLine.setPosition(sf::Vector2f(0.f, static_cast<float>(y)));
         window.draw(horizontalLine);
     }
-
 }
 
-enum class DIRECTION {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
-
 int main() {
-    float snakeX = 20.f;
-    float snakeY = 15.f;
+    Snake snake;
+
 
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
 
     sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
-    shape.setPosition(sf::Vector2f(SIZE_CELL * snakeX,SIZE_CELL * snakeY));
+    shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
     shape.setFillColor(sf::Color::Green);
 
+
+    sf::Clock clock;
     while (window.isOpen()) {
+
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+
+            if (event->is<sf::Event::KeyPressed>()) {
+                auto key = event->getIf<sf::Event::KeyPressed>();
+
+                if (key->code == sf::Keyboard::Key::Left && snake.snakeDirection() != DIRECTION::RIGHT) {
+                    snake.setSnakeDirection(DIRECTION::LEFT);
+                }
+                else if (key->code == sf::Keyboard::Key::Right && snake.snakeDirection() != DIRECTION::LEFT) {
+                    snake.setSnakeDirection(DIRECTION::RIGHT);
+                }
+                else if (key->code == sf::Keyboard::Key::Up && snake.snakeDirection() != DIRECTION::DOWN) {
+                    snake.setSnakeDirection(DIRECTION::UP);
+                }
+                else if (key->code == sf::Keyboard::Key::Down && snake.snakeDirection() != DIRECTION::UP) {
+                    snake.setSnakeDirection(DIRECTION::DOWN);
+                }
+            }
+        }
+
+        if (clock.getElapsedTime().asSeconds() >= 0.2f) {
+            snake.moveSnake();
+            shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
+            clock.restart();
         }
 
         window.clear();
