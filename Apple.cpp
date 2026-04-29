@@ -16,10 +16,10 @@ void Apple::randomizePosition() {
     AppleY_ = yDist(gen_);
 }
 
-sf::RectangleShape Apple::drawApple() const{
+void Apple::drawApple(sf::RenderWindow& window) const{
     sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
     shape.setPosition(sf::Vector2f(SIZE_CELL * static_cast<float>(AppleX()),
                                     SIZE_CELL * static_cast<float>(AppleY())));
     shape.setFillColor(sf::Color::Red);
-    return shape;
+    window.draw(shape);
 }

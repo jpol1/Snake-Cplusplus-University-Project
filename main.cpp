@@ -3,6 +3,8 @@
 #include "Constants.h"
 #include "Apple.h"
 
+
+
 void drawGrid(sf::RenderWindow& window) {
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));
     verticalLine.setFillColor(sf::Color(40,40,40));
@@ -22,6 +24,7 @@ void drawGrid(sf::RenderWindow& window) {
 }
 
 int main() {
+    float WINDOW_REFRESHING = 0.2f;
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
 
     Snake snake;
@@ -29,7 +32,7 @@ int main() {
 
     Apple apple;
     apple.randomizePosition();
-    sf::RectangleShape apple_shape = apple.drawApple();
+    apple.drawApple(window);
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -57,15 +60,14 @@ int main() {
             }
         }
 
-        if (clock.getElapsedTime().asSeconds() >= 0.2f) {
+        if (clock.getElapsedTime().asSeconds() >= WINDOW_REFRESHING) {
             sf::Vector2i tmp_tail = snake.tail();
             snake.moveSnake();
 
             if (snake.headX() == apple.AppleX() && snake.headY() == apple.AppleY()) {
                 apple.randomizePosition();
-                apple_shape.setPosition(sf::Vector2f(SIZE_CELL * static_cast<float>(apple.AppleX()),
-                                                    SIZE_CELL * static_cast<float>(apple.AppleY())));
                 snake.increaseSnake(tmp_tail);
+                WINDOW_REFRESHING *= 0.95 ;
             }
 
             snake.setAlive();
@@ -79,7 +81,7 @@ int main() {
 
         drawGrid(window);
 
-        window.draw(apple_shape);
+        apple.drawApple(window);
         snake.drawSnake(window);
 
         window.display();

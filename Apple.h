@@ -10,9 +10,8 @@ class Apple {
 public:
     Apple();
     void randomizePosition();
-    [[nodiscard]] sf::RectangleShape drawApple() const;
     [[nodiscard]] int AppleX() const { return AppleX_; }
     [[nodiscard]] int AppleY() const { return AppleY_; }
-
+    void drawApple(sf::RenderWindow& window) const;
 };
 #endif //SNAKESFML_APPLE_H
