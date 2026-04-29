@@ -7,5 +7,6 @@
 #include <SFML/Graphics.hpp>
 
 void drawGrid(sf::RenderWindow& window);
+void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& apple, float snake_speed=0.2f);
 
 #endif //SNAKESFML_WINDOW_H
