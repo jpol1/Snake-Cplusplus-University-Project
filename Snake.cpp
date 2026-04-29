@@ -34,6 +34,12 @@ void Snake::setAlive() {
     if (headX() < 0 || headX() >= COLS || headY() < 0 || headY() >= ROWS) {
         isAlive_ = false;
     }
+    for(int i = 1; i < body_.size(); i++) {
+        if (body_[i].x == headX() && body_[i].y == headY()) {
+            isAlive_ = false;
+        }
+    }
+
 }
 
 void Snake::increaseSnake(const sf::Vector2i tail) {
