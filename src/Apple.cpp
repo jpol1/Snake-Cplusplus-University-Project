@@ -1,5 +1,5 @@
-#include "Apple.h"
-#include "Constants.h"
+#include "../include/Apple.h"
+#include "../include/Constants.h"
 #include <random>
 #include <SFML/Graphics.hpp>
 

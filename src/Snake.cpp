@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Snake.h"
-#include "Direction.h"
-#include "Constants.h"
+#include "../include/Snake.h"
+#include "../include/Direction.h"
+#include "../include/Constants.h"
 #include <SFML/Graphics.hpp>
 
 Snake::Snake():

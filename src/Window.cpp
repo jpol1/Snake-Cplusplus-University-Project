@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "Constants.h"
-#include "Direction.h"
-#include "Snake.h"
-#include "Apple.h"
+#include "../include/Constants.h"
+#include "../include/Direction.h"
+#include "../include/Snake.h"
+#include "../include/Apple.h"
 
 void drawGrid(sf::RenderWindow& window){
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));

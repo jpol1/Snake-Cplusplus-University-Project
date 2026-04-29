@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-#include "Snake.h"
-#include "Constants.h"
-#include "Apple.h"
-#include "Window.h"
+#include "../include/Snake.h"
+#include "../include/Constants.h"
+#include "../include/Apple.h"
+#include "../include/Window.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
