@@ -3,6 +3,7 @@
 #include "../include/Direction.h"
 #include "../include/Snake.h"
 #include "../include/Apple.h"
+#include <iostream>
 
 void drawGrid(sf::RenderWindow& window){
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));
@@ -22,7 +23,64 @@ void drawGrid(sf::RenderWindow& window){
     }
 }
 
+void drawCounter(sf::RenderWindow& window, int snakeSize) {
+    sf::Font font;
+    if (!font.openFromFile("../assets/fonts/Comic Sans MS.ttf")) {
+        std::cout << "Failed to load font\n";
+    };
+
+    sf::Text text(font);
+    text.setString(std::to_string(snakeSize-2));
+    text.setCharacterSize(25);
+    text.setFillColor(sf::Color::White);
+    text.setPosition({760 , 20});
+    window.draw(text);
+}
+
+void drawGameOver(sf::RenderWindow& window, int snakeSize) {
+    sf::Font font;
+
+    if (!font.openFromFile("../assets/fonts/Comic Sans MS.ttf")) {
+        std::cout << "Failed to load font\n";
+    };
+
+    sf::Text title(font);
+    title.setString("GAME OVER");
+    title.setCharacterSize(80);
+    title.setFillColor(sf::Color(120,0,0));
+
+    auto titleBounds = title.getLocalBounds();
+    title.setPosition({
+        WINDOW_WIDTH / 2.f - titleBounds.size.x / 2.f,
+        WINDOW_HEIGHT / 2.f - titleBounds.size.y / 2.f
+    });
+
+    sf::Text score(font);
+    score.setString("Your score: " + std::to_string(snakeSize-2));
+    score.setCharacterSize(50);
+    score.setFillColor(sf::Color::White);
+    score.setPosition({
+        title.getPosition().x,
+        title.getPosition().y - 90
+    });
+
+
+    sf::Text restart(font);
+    restart.setString("Click R to Restart");
+    restart.setCharacterSize(30);
+    restart.setFillColor(sf::Color::White);
+    restart.setPosition({
+        title.getPosition().x,
+        title.getPosition().y - 160
+    });
+
+    window.draw(title);
+    window.draw(score);
+    window.draw(restart);
+}
+
 void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& apple, float snake_speed){
+    bool gameOver = false;
     while (window.isOpen()) {
 
         while (const std::optional event = window.pollEvent()) {
@@ -48,7 +106,7 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
             }
         }
 
-        if (clock.getElapsedTime().asSeconds() >= snake_speed) {
+        if (!gameOver && clock.getElapsedTime().asSeconds() >= snake_speed) {
             sf::Vector2i tmp_tail = snake.tail();
             snake.moveSnake();
 
@@ -60,7 +118,7 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
 
             snake.setAlive();
             if (!snake.isAlive()) {
-                break;
+                gameOver = true;
             }
             clock.restart();
         }
@@ -68,10 +126,14 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
         window.clear();
 
         drawGrid(window);
-
-        snake.drawCounter(window);
+        drawCounter(window, snake.bodySize());
         apple.drawApple(window);
         snake.drawSnake(window);
+
+        if (gameOver) {
+            window.clear();
+            drawGameOver(window, snake.bodySize());
+        }
 
         window.display();
     }

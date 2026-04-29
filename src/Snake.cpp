@@ -117,18 +117,3 @@ void Snake::drawSnake(sf::RenderWindow& window) const{
         window.draw(shape);
     }
 }
-
-void Snake::drawCounter(sf::RenderWindow& window) const {
-    sf::Font font;
-
-    if (!font.openFromFile("../assets/fonts/Comic Sans MS.ttf")) {
-        std::cout << "Failed to load font\n";
-    };
-
-    sf::Text text(font);
-    text.setString(std::to_string(body_.size()));
-    text.setCharacterSize(30);
-    text.setFillColor(sf::Color::White);
-    text.setPosition({760.f, 20.f});
-    window.draw(text);
-}
