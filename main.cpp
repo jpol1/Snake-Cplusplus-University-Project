@@ -22,15 +22,14 @@ void drawGrid(sf::RenderWindow& window) {
 }
 
 int main() {
+    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
+
     Snake snake;
-    sf::RectangleShape snake_shape = snake.drawSnake();
+    snake.drawSnake(window);
 
     Apple apple;
     apple.randomizePosition();
     sf::RectangleShape apple_shape = apple.drawApple();
-
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake");
-
 
     sf::Clock clock;
     while (window.isOpen()) {
@@ -59,23 +58,20 @@ int main() {
         }
 
         if (clock.getElapsedTime().asSeconds() >= 0.2f) {
+            sf::Vector2i tmp_tail = snake.tail();
             snake.moveSnake();
+
+            if (snake.headX() == apple.AppleX() && snake.headY() == apple.AppleY()) {
+                apple.randomizePosition();
+                apple_shape.setPosition(sf::Vector2f(SIZE_CELL * static_cast<float>(apple.AppleX()),
+                                                    SIZE_CELL * static_cast<float>(apple.AppleY())));
+                snake.increaseSnake(tmp_tail);
+            }
+
             snake.setAlive();
             if (!snake.isAlive()) {
                 break;
             }
-            snake_shape.setPosition(sf::Vector2f(SIZE_CELL * snake.snakeX(),SIZE_CELL * snake.snakeY()));
-
-
-            if (snake_shape.getPosition() == apple_shape.getPosition()) {
-                snake.increaseLength();
-                while (snake_shape.getPosition() != apple_shape.getPosition()) {
-                    apple.randomizePosition();
-                }
-                apple_shape.setPosition(sf::Vector2f(SIZE_CELL * apple.AppleX(),SIZE_CELL * apple.AppleY()));
-
-            }
-
             clock.restart();
         }
 
@@ -84,7 +80,7 @@ int main() {
         drawGrid(window);
 
         window.draw(apple_shape);
-        window.draw(snake_shape);
+        snake.drawSnake(window);
 
         window.display();
     }

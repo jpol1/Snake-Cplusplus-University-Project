@@ -5,25 +5,24 @@
 #include <SFML/Graphics.hpp>
 
 class Snake {
-    float snakeX_;
-    float snakeY_;
     DIRECTION snakeDirection_;
-    int snakeLength_;
     bool isAlive_;
+    std::vector<sf::Vector2i> body_;
 public:
     Snake();
-    [[nodiscard]] float snakeX() const {return snakeX_;}
-    [[nodiscard]] float snakeY() const {return snakeY_;}
+    [[nodiscard]] int headX() const {return body_[0].x;}
+    [[nodiscard]] int headY() const {return body_[0].y;}
+    [[nodiscard]] sf::Vector2i tail() const {return body_.back();}
     [[nodiscard]] DIRECTION snakeDirection() const {return snakeDirection_;}
     [[nodiscard]] bool isAlive() const {return isAlive_;}
 
     void moveSnake();
-    [[nodiscard]] sf::RectangleShape drawSnake() const;
+    void drawSnake(sf::RenderWindow& window) const;
 
     void setSnakeDirection(DIRECTION direction);
-    void increaseLength();
-
     void setAlive();
+
+    void increaseSnake(sf::Vector2i tail);
 };
 
 #endif //SNAKESFML_SNAKE_H

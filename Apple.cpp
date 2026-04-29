@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 
 Apple::Apple():
-    AppleX_(0.f),
-    AppleY_(0.f),
+    AppleX_(0),
+    AppleY_(0),
     gen_(std::random_device{}()){}
 
 void Apple::randomizePosition() {
@@ -18,7 +18,8 @@ void Apple::randomizePosition() {
 
 sf::RectangleShape Apple::drawApple() const{
     sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
-    shape.setPosition(sf::Vector2f(SIZE_CELL * AppleX() ,SIZE_CELL * AppleY()));
+    shape.setPosition(sf::Vector2f(SIZE_CELL * static_cast<float>(AppleX()),
+                                    SIZE_CELL * static_cast<float>(AppleY())));
     shape.setFillColor(sf::Color::Red);
     return shape;
 }

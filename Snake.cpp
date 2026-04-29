@@ -4,44 +4,48 @@
 #include <SFML/Graphics.hpp>
 
 Snake::Snake():
-snakeX_(20.f),
-snakeY_(15.f),
 snakeDirection_(DIRECTION::RIGHT),
-snakeLength_(1),
-isAlive_(true){};
+isAlive_(true),
+body_({sf::Vector2i(20,15), sf::Vector2i(19,15)}){};
 
 void Snake::setSnakeDirection(DIRECTION direction) {
     snakeDirection_ = direction;
 }
 
 void Snake::moveSnake() {
+    for (int i = static_cast<int>(body_.size()) - 1; i>=1; i--) {
+        body_[i] = body_[i-1];
+    }
     if (snakeDirection_ == DIRECTION::RIGHT) {
-        snakeX_++;
+        body_.front().x++;
     }
     else if (snakeDirection_ == DIRECTION::LEFT) {
-        snakeX_--;
+        body_.front().x--;
     }
     else if (snakeDirection_ == DIRECTION::UP) {
-        snakeY_--;
+        body_.front().y--;
     }
     else if (snakeDirection_ == DIRECTION::DOWN) {
-        snakeY_++;
+        body_.front().y++;
     }
 }
 
-sf::RectangleShape Snake::drawSnake() const{
-    sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
-    shape.setPosition(sf::Vector2f(SIZE_CELL * snakeX(),SIZE_CELL * snakeY()));
-    shape.setFillColor(sf::Color::Green);
-    return shape;
-}
-
-void Snake::increaseLength() {
-    snakeLength_++;
+void Snake::drawSnake(sf::RenderWindow& window) const{
+    for(auto const body: body_) {
+        sf::RectangleShape shape(sf::Vector2f(SIZE_CELL, SIZE_CELL));
+        shape.setPosition(sf::Vector2f(SIZE_CELL * static_cast<float>(body.x),
+                                        SIZE_CELL * static_cast<float>(body.y)));
+        shape.setFillColor(sf::Color::Green);
+        window.draw(shape);
+    }
 }
 
 void Snake::setAlive() {
-    if (snakeX_ < 0 || snakeX_ >= COLS || snakeY_ < 0 || snakeY_ >= ROWS) {
+    if (headX() < 0 || headX() >= COLS || headY() < 0 || headY() >= ROWS) {
         isAlive_ = false;
     }
+}
+
+void Snake::increaseSnake(const sf::Vector2i tail) {
+    body_.push_back(tail);
 }
