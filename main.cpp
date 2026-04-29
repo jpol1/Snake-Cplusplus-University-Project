@@ -62,6 +62,7 @@ int main() {
 
         drawGrid(window);
 
+        snake.drawCounter(window);
         apple.drawApple(window);
         snake.drawSnake(window);
 

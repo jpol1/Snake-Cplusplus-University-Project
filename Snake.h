@@ -21,7 +21,7 @@ public:
     void drawEyes(sf::RenderWindow& window) const;
     void drawHead(sf::RenderWindow& window) const;
     void drawSnake(sf::RenderWindow& window) const;
-
+    void drawCounter(sf::RenderWindow& window) const;
 
     void setSnakeDirection(DIRECTION direction);
     void setAlive();
