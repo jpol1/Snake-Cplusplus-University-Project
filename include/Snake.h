@@ -7,6 +7,7 @@
 class Snake {
     DIRECTION snakeDirection_;
     bool isAlive_;
+    float snakeSpeed_;
     std::vector<sf::Vector2i> body_;
 public:
     Snake();
@@ -16,6 +17,7 @@ public:
     [[nodiscard]] DIRECTION snakeDirection() const {return snakeDirection_;}
     [[nodiscard]] bool isAlive() const {return isAlive_;}
     [[nodiscard]] int bodySize() const {return static_cast<int>(body_.size());}
+    [[nodiscard]] float snakeSpeed() const{return snakeSpeed_;};
 
     void moveSnake();
 
@@ -28,6 +30,7 @@ public:
     void setAlive();
 
     void increaseSnake(sf::Vector2i tail);
+    void increaseSpeed();
 };
 
 #endif //SNAKESFML_SNAKE_H

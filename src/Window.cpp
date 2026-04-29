@@ -79,7 +79,7 @@ void drawGameOver(sf::RenderWindow& window, int snakeSize) {
     window.draw(restart);
 }
 
-void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& apple, float snake_speed){
+void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& apple){
     bool gameOver = false;
     while (window.isOpen()) {
 
@@ -103,17 +103,22 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
                 else if (key->code == sf::Keyboard::Key::Down && snake.snakeDirection() != DIRECTION::UP) {
                     snake.setSnakeDirection(DIRECTION::DOWN);
                 }
+                else if (key->code == sf::Keyboard::Key::R && gameOver == true) {
+                    snake = Snake();
+                    apple.randomizePosition();
+                    gameOver = false;
+                }
             }
         }
 
-        if (!gameOver && clock.getElapsedTime().asSeconds() >= snake_speed) {
+        if (!gameOver && clock.getElapsedTime().asSeconds() >= snake.snakeSpeed()) {
             sf::Vector2i tmp_tail = snake.tail();
             snake.moveSnake();
 
             if (snake.headX() == apple.AppleX() && snake.headY() == apple.AppleY()) {
                 apple.randomizePosition();
                 snake.increaseSnake(tmp_tail);
-                snake_speed *= 0.99 ;
+                snake.increaseSpeed();
             }
 
             snake.setAlive();

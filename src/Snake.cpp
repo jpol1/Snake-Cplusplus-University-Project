@@ -7,6 +7,7 @@
 Snake::Snake():
 snakeDirection_(DIRECTION::RIGHT),
 isAlive_(true),
+snakeSpeed_(0.2f),
 body_({sf::Vector2i(20,15), sf::Vector2i(19,15)}){};
 
 void Snake::setSnakeDirection(DIRECTION direction) {
@@ -116,4 +117,8 @@ void Snake::drawSnake(sf::RenderWindow& window) const{
         shape.setFillColor(sf::Color::Green);
         window.draw(shape);
     }
+}
+
+void Snake::increaseSpeed() {
+    snakeSpeed_ *= 0.99;
 }
