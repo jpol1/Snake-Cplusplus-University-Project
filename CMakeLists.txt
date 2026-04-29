@@ -7,11 +7,13 @@ find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)
 
 add_executable(SnakeSFML
         main.cpp
-        Snake.cpp
         Direction.h
+        Snake.cpp
         Snake.h
         Apple.cpp
         Apple.h
+        Window.cpp
+        Window.h
 )
 
 target_link_libraries(SnakeSFML SFML::Graphics SFML::Window SFML::System)

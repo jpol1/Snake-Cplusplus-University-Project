@@ -17,7 +17,11 @@ public:
     [[nodiscard]] bool isAlive() const {return isAlive_;}
 
     void moveSnake();
+
+    void drawEyes(sf::RenderWindow& window) const;
+    void drawHead(sf::RenderWindow& window) const;
     void drawSnake(sf::RenderWindow& window) const;
+
 
     void setSnakeDirection(DIRECTION direction);
     void setAlive();
