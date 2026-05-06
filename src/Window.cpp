@@ -1,9 +1,36 @@
+#include "../include/Window.h"
+
 #include <SFML/Graphics.hpp>
 #include "../include/Constants.h"
 #include "../include/Direction.h"
 #include "../include/Snake.h"
 #include "../include/Apple.h"
+#include <fstream>
 #include <iostream>
+int loadBestScore(const std::string& filename="../assets/data/best_score.txt") {
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Cannot open file with best score\n";
+        return 0;
+    }
+
+    int bestScore = 0;
+    file >> bestScore;
+
+    return bestScore;
+}
+
+void saveBestScore(const int score, const std::string& filename="../assets/data/best_score.txt") {
+    std::ofstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Cannot save best score\n";
+        return;
+    }
+
+    file << score;
+}
 
 void drawGrid(sf::RenderWindow& window){
     sf::RectangleShape verticalLine(sf::Vector2f(1, WINDOW_HEIGHT));
@@ -37,7 +64,7 @@ void drawCounter(sf::RenderWindow& window, int snakeSize) {
     window.draw(text);
 }
 
-void drawGameOver(sf::RenderWindow& window, int snakeSize) {
+void drawGameOver(sf::RenderWindow& window, int snakeSize, int bestScore) {
     sf::Font font;
 
     if (!font.openFromFile("../assets/fonts/Comic Sans MS.ttf")) {
@@ -52,7 +79,7 @@ void drawGameOver(sf::RenderWindow& window, int snakeSize) {
     auto titleBounds = title.getLocalBounds();
     title.setPosition({
         WINDOW_WIDTH / 2.f - titleBounds.size.x / 2.f,
-        WINDOW_HEIGHT / 2.f - titleBounds.size.y / 2.f
+        WINDOW_HEIGHT / 2.f - titleBounds.size.y / 2.f - 120
     });
 
     sf::Text score(font);
@@ -61,7 +88,7 @@ void drawGameOver(sf::RenderWindow& window, int snakeSize) {
     score.setFillColor(sf::Color::White);
     score.setPosition({
         title.getPosition().x,
-        title.getPosition().y - 90
+        title.getPosition().y + 100
     });
 
 
@@ -71,12 +98,22 @@ void drawGameOver(sf::RenderWindow& window, int snakeSize) {
     restart.setFillColor(sf::Color::White);
     restart.setPosition({
         title.getPosition().x,
-        title.getPosition().y - 160
+        title.getPosition().y + 180
+    });
+
+    sf::Text best_score(font);
+    best_score.setString("Best score: " + std::to_string(bestScore));
+    best_score.setCharacterSize(20);
+    best_score.setFillColor(sf::Color::White);
+    best_score.setPosition({
+        10,
+        10
     });
 
     window.draw(title);
     window.draw(score);
     window.draw(restart);
+    window.draw(best_score);
 }
 
 void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& apple){
@@ -137,7 +174,11 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
 
         if (gameOver) {
             window.clear();
-            drawGameOver(window, snake.bodySize());
+            int bestScore = loadBestScore();
+            if (snake.bodySize()-2 > bestScore) {
+                saveBestScore(snake.bodySize()-2);
+            }
+            drawGameOver(window, snake.bodySize(), bestScore);
         }
 
         window.display();
