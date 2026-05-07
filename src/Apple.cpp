@@ -1,5 +1,6 @@
 #include "../include/Apple.h"
 #include "../include/Constants.h"
+#include "../include/Snake.h"
 #include <random>
 #include <SFML/Graphics.hpp>
 
@@ -22,4 +23,14 @@ void Apple::drawApple(sf::RenderWindow& window) const{
                                     SIZE_CELL * static_cast<float>(AppleY())));
     shape.setFillColor(sf::Color::Red);
     window.draw(shape);
+}
+
+bool Apple::positionInSnake(const Snake& snake) const{
+    for (int i = 0; i < snake.bodySize(); i++) {
+        const sf::Vector2i snake_el = snake[i];
+        if (AppleX() == snake_el.x && AppleY() == snake_el.y) {
+            return true;
+        }
+    }
+    return false;
 }

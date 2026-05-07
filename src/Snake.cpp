@@ -122,3 +122,7 @@ void Snake::drawSnake(sf::RenderWindow& window) const{
 void Snake::increaseSpeed() {
     snakeSpeed_ *= 0.99;
 }
+
+const sf::Vector2i& Snake::operator[](const int idx) const{
+    return body_[idx];
+}

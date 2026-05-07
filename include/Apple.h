@@ -2,6 +2,7 @@
 #define SNAKESFML_APPLE_H
 #include <random>
 #include <SFML/Graphics.hpp>
+#include "Snake.h"
 
 class Apple {
     int AppleX_;
@@ -13,5 +14,6 @@ public:
     [[nodiscard]] int AppleX() const { return AppleX_; }
     [[nodiscard]] int AppleY() const { return AppleY_; }
     void drawApple(sf::RenderWindow& window) const;
+    bool positionInSnake(const Snake& snake) const;
 };
 #endif //SNAKESFML_APPLE_H

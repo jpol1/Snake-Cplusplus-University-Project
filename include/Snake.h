@@ -18,6 +18,7 @@ public:
     [[nodiscard]] bool isAlive() const {return isAlive_;}
     [[nodiscard]] int bodySize() const {return static_cast<int>(body_.size());}
     [[nodiscard]] float snakeSpeed() const{return snakeSpeed_;};
+    const sf::Vector2i& operator[](int idx) const;
 
     void moveSnake();
 

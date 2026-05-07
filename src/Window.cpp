@@ -142,7 +142,9 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
                 }
                 else if (key->code == sf::Keyboard::Key::R && gameOver == true) {
                     snake = Snake();
-                    apple.randomizePosition();
+                    do {
+                        apple.randomizePosition();
+                    } while (apple.positionInSnake(snake));
                     gameOver = false;
                 }
             }
@@ -153,9 +155,12 @@ void runGame(sf::RenderWindow& window, sf::Clock& clock, Snake& snake, Apple& ap
             snake.moveSnake();
 
             if (snake.headX() == apple.AppleX() && snake.headY() == apple.AppleY()) {
-                apple.randomizePosition();
                 snake.increaseSnake(tmp_tail);
                 snake.increaseSpeed();
+
+                do {
+                    apple.randomizePosition();
+                } while (apple.positionInSnake(snake));
             }
 
             snake.setAlive();
