@@ -1,0 +1,13 @@
+#ifndef SNAKESFML_GAMESTATE_H
+#define SNAKESFML_GAMESTATE_H
+
+
+enum class GAME_STATE {
+    MENU,
+    PLAYING,
+    GAME_OVER,
+    PAUSE,
+    HOW_TO_PLAY
+};
+
+#endif //SNAKESFML_GAMESTATE_H

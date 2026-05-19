@@ -6,6 +6,7 @@
 
 class Snake {
     DIRECTION snakeDirection_;
+    DIRECTION nextDirection_;
     bool isAlive_;
     float snakeSpeed_;
     std::vector<sf::Vector2i> body_;

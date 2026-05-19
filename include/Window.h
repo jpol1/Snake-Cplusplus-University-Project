@@ -10,5 +10,6 @@ void drawCounter(sf::RenderWindow& window);
 void drawGameOver(sf::RenderWindow& window, int snakeSize, int bestScore);
 int loadBestScore(const std::string& filename);
 void saveBestScore(int score, const std::string& filename);
+void loadMenu(sf::RenderWindow& window);
 
 #endif //SNAKESFML_WINDOW_H

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../include/Snake.h"
 #include "../include/Direction.h"
 #include "../include/Constants.h"
@@ -6,15 +5,27 @@
 
 Snake::Snake():
 snakeDirection_(DIRECTION::RIGHT),
+nextDirection_(DIRECTION::RIGHT),
 isAlive_(true),
 snakeSpeed_(0.2f),
 body_({sf::Vector2i(20,15), sf::Vector2i(19,15)}){};
 
 void Snake::setSnakeDirection(DIRECTION direction) {
-    snakeDirection_ = direction;
+    if (
+        (snakeDirection_ == DIRECTION::RIGHT && direction == DIRECTION::LEFT) ||
+        (snakeDirection_ == DIRECTION::LEFT && direction == DIRECTION::RIGHT) ||
+        (snakeDirection_ == DIRECTION::UP && direction == DIRECTION::DOWN) ||
+        (snakeDirection_ == DIRECTION::DOWN && direction == DIRECTION::UP)
+    ) {
+        return;
+    }
+
+    nextDirection_ = direction;
 }
 
+
 void Snake::moveSnake() {
+    snakeDirection_ = nextDirection_;
     for (int i = static_cast<int>(body_.size()) - 1; i>=1; i--) {
         body_[i] = body_[i-1];
     }
@@ -41,7 +52,6 @@ void Snake::setAlive() {
             isAlive_ = false;
         }
     }
-
 }
 
 void Snake::increaseSnake(const sf::Vector2i tail) {
