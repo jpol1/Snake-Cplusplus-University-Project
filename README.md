@@ -163,9 +163,6 @@ This project was created to practise:
 - Add difficulty levels
 - Add more visual effects
 - Improve menu design
-- Add a restart option after game over
-- Add cross-platform release builds
-
 ---
 
 ## Author
