@@ -101,7 +101,7 @@ make
 ### Run
 
 ```bash
-./Snake
+./SnakeSFML
 ```
 
 > The executable name may depend on the name defined in `CMakeLists.txt`.
